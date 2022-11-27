@@ -3,6 +3,7 @@
 #include <thread>
 
 using namespace std;
+//Colores definidos, solo concatenarlos al inicio
 #define RED "\033[31m";
 #define BLUE "\033[34m";
 #define CYAN "\033[36m";
@@ -12,10 +13,11 @@ using namespace std;
 
 int main (){
 	srand(time(NULL));
+	int randColor[3];
 	int estAnterior = 0, estAnterior2 = 0, estAnterior3 = 0, estAnterior4 = 0, estAnterior5 = 0,estAnterior6 = 0;
 	int colAnterior = 0;
-	string spaces = "", spaces2 = "", spaces3 "";
-	string selectedColor = "";
+	string spaces = "", spaces2 = "", spaces3 = "";
+	string selectedColor[3];
 	while (true){
 		//--------------- variables para numeros aleatorios -----------------
 		int numAleatorio = rand() % 101;
@@ -27,9 +29,12 @@ int main (){
 		int stepRand2 = rand() % 10;
 		int stepRand3 = rand() % 10;
 		//Escoge el color aleatorio
-		int randColor = rand() % 6;
-		int randColor2 = rand() % 6;
-		int randColor3 = rand() % 6;
+		for ( int i = 0 ; randColor[i] <= 2 ; i++ ){
+			randColor[i] = rand() % 6;
+		}
+		//int randColor = rand() % 6;
+		//int randColor2 = rand() % 6;
+		//int randColor3 = rand() % 6;
 		//Evita que el numero aleatorio se vuelva a repetir
 		if ( estAnterior == numAleatorio ){
 			numAleatorio++;
@@ -51,11 +56,11 @@ int main (){
 			stepRand3++;
 		}
 		//Evita que se repita el color
-		if ( colAnterior == randColor ){
-			randColor++;
-		}
+		//if ( colAnterior == randColor ){
+		//	randColor++;
+		//}
 		//Guarda para leer como estado anterior
-		colAnterior = randColor;
+		//colAnterior = randColor;
 		estAnterior5 = stepRand2;
 		estAnterior6 = stepRand3;
 		estAnterior4 = numAleatorio3;
@@ -176,27 +181,29 @@ int main (){
 				spaces3 = "            ";
 			break;
 		}
-		switch(randColor){
+		for ( int i = 0 ; randColor[i] <= 2 ; i++ ){
+		switch(randColor[i]){
 			case 0:
-				selectedColor = RED;
+				selectedColor[i] = RED;
 			break;
 			case 1:
-				selectedColor = BLUE;
+				selectedColor[i] = BLUE;
 			break;
 			case 2:
-				selectedColor = YELLOW;
+				selectedColor[i] = YELLOW;
 			break;
 			case 3:
-				selectedColor = MAGENTA;
+				selectedColor[i] = MAGENTA;
 			break;
 			case 4:
-				selectedColor = GREEN;
+				selectedColor[i] = GREEN;
 			break;
 			case 5:
-				selectedColor = CYAN;
+				selectedColor[i] = CYAN;
 			break;
 		}
-		cout<<selectedColor<<spaces<<numAleatorio<<spaces2<<numAleatorio2<<spaces3<<numAleatorio3<<endl;
+		}
+		cout<<selectedColor[1]<<spaces<<numAleatorio<<selectedColor[2]<<spaces2<<numAleatorio2<<selectedColor[3]<<spaces3<<numAleatorio3<<endl;
 		std::this_thread::sleep_for(70ms); //Duerme el proceso durante medio segundo
 	}
 	return 0;
