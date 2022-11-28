@@ -3,208 +3,199 @@
 #include <thread>
 
 using namespace std;
-//Colores definidos, solo concatenarlos al inicio
-#define RED "\033[31m";
-#define BLUE "\033[34m";
-#define CYAN "\033[36m";
-#define MAGENTA "\033[35m";
-#define GREEN "\033[32m";
-#define YELLOW "\033[33m";
+
+//Colores definidos, solo concatenarlos al inicio del cout
+#define RED "\033[0;31m";
+#define BLUE "\033[0;34m";
+#define CYAN "\033[0;36m";
+#define MAGENTA "\033[0;35m";
+#define GREEN "\033[0;32m";
+#define YELLOW "\033[0;33m";
+// Colores en negritas
+#define BOLDRED "\033[1;31m";
+#define BOLDBLUE "\033[1;34m";
+#define BOLDCYAN "\033[1;36m";
+#define BOLDMAGENTA "\033[1;35m";
+#define BOLDGREEN "\033[1;32m";
+#define BOLDYELLOW "\033[1;33m";
+// Colores en cursiva ( mas bien los caracteres estan en cursiva jeje )
+#define ITALICRED "\033[3;31m";
+#define ITALICBLUE "\033[3;34m";
+#define ITALICCYAN "\033[3;36m";
+#define ITALICMAGENTA "\033[3;35m";
+#define ITALICGREEN "\033[3;32m";
+#define ITALICYELLOW "\033[3;33m";
+//--------------------------------------------------------
 
 int main (){
 	srand(time(NULL));
-	int randColor[3];
-	int estAnterior = 0, estAnterior2 = 0, estAnterior3 = 0, estAnterior4 = 0, estAnterior5 = 0,estAnterior6 = 0;
-	int colAnterior = 0;
-	string spaces = "", spaces2 = "", spaces3 = "";
-	string selectedColor[3];
+	int randColor[12], colAnterior[12];
+	int numAleatorio[12], numAnterior[12];
+	int stepRand[12], stepAnterior[12];
+	string spaces[12];
+	string selectedColor[12];
+	
 	while (true){
-		//--------------- variables para numeros aleatorios -----------------
-		int numAleatorio = rand() % 101;
-		int numAleatorio2 = rand() % 101;
-		int numAleatorio3 = rand() % 101;
-		//-------------------------------------------------------------------
-		//Escoge el numero de escalon
-		int stepRand = rand() % 10;
-		int stepRand2 = rand() % 10;
-		int stepRand3 = rand() % 10;
-		//Escoge el color aleatorio
-		for ( int i = 0 ; randColor[i] <= 2 ; i++ ){
-			randColor[i] = rand() % 6;
+		//----------------------- for para manejar los numeros aleatorios -----------------------
+		for ( int i = 0 ; i < 12 ; ){
+		    numAleatorio[i] = rand() % 101; //Rango de aleatorios de 0 a 100
+		    i++;
 		}
-		//int randColor = rand() % 6;
-		//int randColor2 = rand() % 6;
-		//int randColor3 = rand() % 6;
-		//Evita que el numero aleatorio se vuelva a repetir
-		if ( estAnterior == numAleatorio ){
-			numAleatorio++;
+		//------------------------------------------------------------------------------------
+		
+		//--------------------------- Escoge el numero de escalon ---------------------------
+		for ( int i = 0 ; i < 12 ; ){
+		    stepRand[i] = rand() % 12; //Rango de aleatorios de 0 a 12
+		    i++;
 		}
-		if ( estAnterior3 == numAleatorio2 ){
-			numAleatorio2++;
+		//------------------------------------------------------------------------------------
+		
+		//----------------------------- Escoge el color aleatorio ----------------------------
+		for ( int i = 0 ; i < 12 ; ){
+			randColor[i] = rand() % 18; // Se guarda el valor del color dependiendo del valor de i
+			i++;
 		}
-		if ( estAnterior4 == numAleatorio3 ){
-			numAleatorio3++;
+		//------------------------------------------------------------------------------------
+		
+		//--------------- Evita que el numero aleatorio se vuelva a repetir ------------------
+		for ( int i = 0 ; i < 12 ; ){
+		    if ( numAleatorio[i] == numAnterior[i] ){
+		        numAleatorio[i]++; //incrementa el numero aleatorio, lo hace cambiar por 1 mas
+		    }
+		    numAnterior[i] = numAleatorio[i];
+		    i++;
 		}
-		//Evita que salga un numero en el mismo espacio
-		if ( estAnterior2 == stepRand ){
-			stepRand++;
+		//------------------------------------------------------------------------------------
+		
+		//----------------- Evita que salga un numero en el mismo espacio --------------------
+		for ( int i = 0 ; i < 12 ; ){
+		    if ( stepRand[i] == stepAnterior[i] ){
+		        stepRand[i]++; //sube un escalon mas, sin mucha diferencia...
+		    }
+		    stepAnterior[i] = stepRand[i];
+		    i++;
 		}
-		if ( estAnterior5 == stepRand2 ){
-			stepRand2++;
+		//------------------------------------------------------------------------------------
+		
+		//---------------------- Evita que se repita el color --------------------------------
+		for (int i = 0 ; i < 12 ; ){
+		    if ( randColor[i] == colAnterior[i] ){
+		        randColor[i]++; //se incrementa solo en 1 el color, para variar
+		    }
+		    colAnterior[i] = randColor[i]; //Se guarda el color anterior
+		    i++;
 		}
-		if ( estAnterior6 == stepRand3 ){
-			stepRand3++;
+		//------------------------------------------------------------------------------------
+		
+		for ( int i = 0 ; i < 12 ; ) {
+		    switch(stepRand[i]){
+    			case 0:
+    				spaces[i] = " ";
+    			break;
+    			case 1:
+    				spaces[i] = "  ";
+    			break;
+    			case 2:
+    				spaces[i] = "   ";
+    			break;
+    			case 3:
+    				spaces[i] = "    ";
+    			break;
+    			case 4:
+    				spaces[i] = "     ";
+    			break;
+    			case 5:
+    				spaces[i] = "      ";
+    			break;
+    			case 6:
+    				spaces[i] = "       ";
+    			break;
+    			case 7:
+    				spaces[i] = "        ";
+    			break;
+    			case 8:
+    				spaces[i] = "         ";
+    			break;
+    			case 9:
+    				spaces[i] = "          ";
+    			break;
+    			case 10:
+    				spaces[i] = "           ";
+    			break;
+    			case 11:
+    				spaces[i] = "            ";
+    			break;
+    		}
+    		i++; //incrementa el contador luego de realizar todo
 		}
-		//Evita que se repita el color
-		//if ( colAnterior == randColor ){
-		//	randColor++;
-		//}
-		//Guarda para leer como estado anterior
-		//colAnterior = randColor;
-		estAnterior5 = stepRand2;
-		estAnterior6 = stepRand3;
-		estAnterior4 = numAleatorio3;
-		estAnterior3 = numAleatorio2;
-		estAnterior2 = stepRand;
-		estAnterior = numAleatorio;
-		switch(stepRand){
-			case 0:
-				spaces = " ";
-			break;
-			case 1:
-				spaces = "  ";
-			break;
-			case 2:
-				spaces = "   ";
-			break;
-			case 3:
-				spaces = "    ";
-			break;
-			case 4:
-				spaces = "     ";
-			break;
-			case 5:
-				spaces = "      ";
-			break;
-			case 6:
-				spaces = "       ";
-			break;
-			case 7:
-				spaces = "        ";
-			break;
-			case 8:
-				spaces = "         ";
-			break;
-			case 9:
-				spaces = "          ";
-			break;
-			case 10:
-				spaces = "           ";
-			break;
-			case 11:
-				spaces = "            ";
-			break;
+		
+		for ( int i = 0 ; i < 12 ; ){
+		    switch(randColor[i]){
+    			case 0:
+    				selectedColor[i] = RED;
+    			break;
+    			case 1:
+    				selectedColor[i] = BLUE;
+    			break;
+    			case 2:
+    				selectedColor[i] = YELLOW;
+    			break;
+    			case 3:
+    				selectedColor[i] = MAGENTA;
+    			break;
+    			case 4:
+    				selectedColor[i] = GREEN;
+    			break;
+    			case 5:
+    				selectedColor[i] = CYAN;
+    			break;
+    			case 6:
+    				selectedColor[i] = BOLDRED;
+    			break;
+    			case 7:
+    				selectedColor[i] = BOLDBLUE;
+    			break;
+    			case 8:
+    				selectedColor[i] = BOLDYELLOW;
+    			break;
+    			case 9:
+    				selectedColor[i] = BOLDMAGENTA;
+    			break;
+    			case 10:
+    				selectedColor[i] = BOLDGREEN;
+    			break;
+    			case 11:
+    				selectedColor[i] = BOLDCYAN;
+    			break;
+    			case 12:
+    				selectedColor[i] = ITALICRED;
+    			break;
+    			case 13:
+    				selectedColor[i] = ITALICBLUE;
+    			break;
+    			case 14:
+    				selectedColor[i] = ITALICYELLOW;
+    			break;
+    			case 15:
+    				selectedColor[i] = ITALICMAGENTA;
+    			break;
+    			case 16:
+    				selectedColor[i] = ITALICGREEN;
+    			break;
+    			case 17:
+    				selectedColor[i] = ITALICCYAN;
+    			break;
+		    }
+		    i++; // incrementa en uno el contador c:
 		}
-		switch(stepRand2){
-			case 0:
-				spaces2 = " ";
-			break;
-			case 1:
-				spaces2 = "  ";
-			break;
-			case 2:
-				spaces2 = "   ";
-			break;
-			case 3:
-				spaces2 = "    ";
-			break;
-			case 4:
-				spaces2 = "     ";
-			break;
-			case 5:
-				spaces2 = "      ";
-			break;
-			case 6:
-				spaces2 = "       ";
-			break;
-			case 7:
-				spaces2 = "        ";
-			break;
-			case 8:
-				spaces2 = "         ";
-			break;
-			case 9:
-				spaces2 = "          ";
-			break;
-			case 10:
-				spaces2 = "           ";
-			break;
-			case 11:
-				spaces2 = "            ";
-			break;
-		}
-		switch(stepRand3){
-			case 0:
-				spaces3 = " ";
-			break;
-			case 1:
-				spaces3 = "  ";
-			break;
-			case 2:
-				spaces3 = "   ";
-			break;
-			case 3:
-				spaces3 = "    ";
-			break;
-			case 4:
-				spaces3 = "     ";
-			break;
-			case 5:
-				spaces3 = "      ";
-			break;
-			case 6:
-				spaces3 = "       ";
-			break;
-			case 7:
-				spaces3 = "        ";
-			break;
-			case 8:
-				spaces3 = "         ";
-			break;
-			case 9:
-				spaces3 = "          ";
-			break;
-			case 10:
-				spaces3 = "           ";
-			break;
-			case 11:
-				spaces3 = "            ";
-			break;
-		}
-		for ( int i = 0 ; randColor[i] <= 2 ; i++ ){
-		switch(randColor[i]){
-			case 0:
-				selectedColor[i] = RED;
-			break;
-			case 1:
-				selectedColor[i] = BLUE;
-			break;
-			case 2:
-				selectedColor[i] = YELLOW;
-			break;
-			case 3:
-				selectedColor[i] = MAGENTA;
-			break;
-			case 4:
-				selectedColor[i] = GREEN;
-			break;
-			case 5:
-				selectedColor[i] = CYAN;
-			break;
-		}
-		}
-		cout<<selectedColor[1]<<spaces<<numAleatorio<<selectedColor[1]<<spaces2<<numAleatorio2<<selectedColor[1]<<spaces3<<numAleatorio3<<endl;
-		std::this_thread::sleep_for(70ms); //Duerme el proceso durante medio segundo
+		//El primer cout no salta linea para que el segundo le siga (por temas de espacio en pantalla con el codigo :p)
+		cout<<selectedColor[0]<<spaces[0]<<numAleatorio[0]<<selectedColor[1]<<spaces[1]<<numAleatorio[1]<<selectedColor[2]<<spaces[2]<<numAleatorio[2];
+		cout<<selectedColor[3]<<spaces[3]<<numAleatorio[3]<<selectedColor[4]<<spaces[4]<<numAleatorio[4]<<selectedColor[5]<<spaces[5]<<numAleatorio[5];
+		cout<<selectedColor[6]<<spaces[6]<<numAleatorio[6]<<selectedColor[7]<<spaces[7]<<numAleatorio[7]<<selectedColor[8]<<spaces[8]<<numAleatorio[8];
+		cout<<selectedColor[9]<<spaces[9]<<numAleatorio[9]<<selectedColor[10]<<spaces[10]<<numAleatorio[10];
+		cout<<selectedColor[11]<<spaces[11]<<numAleatorio[11]<<endl; //termina el parrafo
+		//Duerme el proceso durante medio segundo... o el tiempo que tu quieras -.-
+		std::this_thread::sleep_for(10ms); //ms = milliseconds
 	}
 	return 0;
 }
