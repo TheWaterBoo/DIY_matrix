@@ -29,36 +29,38 @@ using namespace std;
 
 int main (){
 	srand(time(NULL));
-	int randColor[12], colAnterior[12];
-	int numAleatorio[12], numAnterior[12];
-	int stepRand[12], stepAnterior[12];
-	string spaces[12];
-	string selectedColor[12];
+	int randColor[30], colAnterior[30];
+	int numAleatorio[30], numAnterior[30];
+	int stepRand[30], stepAnterior[30];
+	string spaces[30];
+	char letter[30];
+	string selectedColor[30];
 	
 	while (true){
 		//----------------------- for para manejar los numeros aleatorios -----------------------
-		for ( int i = 0 ; i < 12 ; ){
-		    numAleatorio[i] = rand() % 101; //Rango de aleatorios de 0 a 100
+		for ( int i = 0 ; i < 30 ; ){
+		    numAleatorio[i] = rand() % 90 + 33; //Rango de aleatorios con valores ASCII, se da mas 33 para que comienze con ese valor
+		    letter[i] = numAleatorio[i];
 		    i++;
 		}
 		//------------------------------------------------------------------------------------
 		
 		//--------------------------- Escoge el numero de escalon ---------------------------
-		for ( int i = 0 ; i < 12 ; ){
+		for ( int i = 0 ; i < 30 ; ){
 		    stepRand[i] = rand() % 12; //Rango de aleatorios de 0 a 12
 		    i++;
 		}
 		//------------------------------------------------------------------------------------
 		
 		//----------------------------- Escoge el color aleatorio ----------------------------
-		for ( int i = 0 ; i < 12 ; ){
+		for ( int i = 0 ; i < 30 ; ){
 			randColor[i] = rand() % 18; // Se guarda el valor del color dependiendo del valor de i
 			i++;
 		}
 		//------------------------------------------------------------------------------------
 		
 		//--------------- Evita que el numero aleatorio se vuelva a repetir ------------------
-		for ( int i = 0 ; i < 12 ; ){
+		for ( int i = 0 ; i < 30 ; ){
 		    if ( numAleatorio[i] == numAnterior[i] ){
 		        numAleatorio[i]++; //incrementa el numero aleatorio, lo hace cambiar por 1 mas
 		    }
@@ -68,7 +70,7 @@ int main (){
 		//------------------------------------------------------------------------------------
 		
 		//----------------- Evita que salga un numero en el mismo espacio --------------------
-		for ( int i = 0 ; i < 12 ; ){
+		for ( int i = 0 ; i < 30 ; ){
 		    if ( stepRand[i] == stepAnterior[i] ){
 		        stepRand[i]++; //sube un escalon mas, sin mucha diferencia...
 		    }
@@ -78,7 +80,7 @@ int main (){
 		//------------------------------------------------------------------------------------
 		
 		//---------------------- Evita que se repita el color --------------------------------
-		for (int i = 0 ; i < 12 ; ){
+		for (int i = 0 ; i < 30 ; ){
 		    if ( randColor[i] == colAnterior[i] ){
 		        randColor[i]++; //se incrementa solo en 1 el color, para variar
 		    }
@@ -87,7 +89,7 @@ int main (){
 		}
 		//------------------------------------------------------------------------------------
 		
-		for ( int i = 0 ; i < 12 ; ) {
+		for ( int i = 0 ; i < 30 ; ) {
 		    switch(stepRand[i]){
     			case 0:
     				spaces[i] = " ";
@@ -125,11 +127,11 @@ int main (){
     			case 11:
     				spaces[i] = "            ";
     			break;
-    		}
+    		    }
     		i++; //incrementa el contador luego de realizar todo
 		}
 		
-		for ( int i = 0 ; i < 12 ; ){
+		for ( int i = 0 ; i < 30 ; ){
 		    switch(randColor[i]){
     			case 0:
     				selectedColor[i] = RED;
@@ -188,14 +190,19 @@ int main (){
 		    }
 		    i++; // incrementa en uno el contador c:
 		}
-		//El primer cout no salta linea para que el segundo le siga (por temas de espacio en pantalla con el codigo :p)
-		cout<<selectedColor[0]<<spaces[0]<<numAleatorio[0]<<selectedColor[1]<<spaces[1]<<numAleatorio[1]<<selectedColor[2]<<spaces[2]<<numAleatorio[2];
-		cout<<selectedColor[3]<<spaces[3]<<numAleatorio[3]<<selectedColor[4]<<spaces[4]<<numAleatorio[4]<<selectedColor[5]<<spaces[5]<<numAleatorio[5];
-		cout<<selectedColor[6]<<spaces[6]<<numAleatorio[6]<<selectedColor[7]<<spaces[7]<<numAleatorio[7]<<selectedColor[8]<<spaces[8]<<numAleatorio[8];
-		cout<<selectedColor[9]<<spaces[9]<<numAleatorio[9]<<selectedColor[10]<<spaces[10]<<numAleatorio[10];
-		cout<<selectedColor[11]<<spaces[11]<<numAleatorio[11]<<endl; //termina el parrafo
+
+		//Imprime los numeros coloridos aleatorios que ves en pantalla... eso hasta que se acabe el for
+		for ( int i = 0 ; i < 30 ; ){
+			//Antes solo se imprimian numeros, ahora caracteres aleatorios gracias al ASCII c:
+			//cout<<selectedColor[i]<<spaces[i]<<numAleatorio[i];
+			cout<<selectedColor[i]<<spaces[i]<<letter[i];
+			i++;
+		}
+		cout<<""<<endl; //Evita que todo se imprima en un solo parrafo
 		//Duerme el proceso durante medio segundo... o el tiempo que tu quieras -.-
-		std::this_thread::sleep_for(10ms); //ms = milliseconds
+		//std::this_thread::sleep_for(10ms); //ms = milliseconds
+		//Duerme el proceso igual, funciona en unix
+		std::this_thread::sleep_for(std::chrono::milliseconds(35));
 	}
 	return 0;
 }
